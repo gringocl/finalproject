@@ -1,9 +1,14 @@
 require "test_helper"
 
 class CanCreateNewPostTest < Capybara::Rails::TestCase
-  test "Can create new post" do
+  before do
     visit '/posts'
+
     click_link "New Post"
+  end
+
+  test "Can create new post" do
+    
     fill_in 'Title', with: 'Hello World!'
     fill_in 'Content', with: 'Lorem ipsum Adipisicing aliquip enim ut quis mollit in do eu sint sint fugiat cupidatat id do proident esse Excepteur elit amet commodo in minim nostrud deserunt consequat amet incididunt reprehenderit nisi in irure aliquip eiusmod esse.'
     click_button 'Create Post'
@@ -21,12 +26,30 @@ class CanCreateNewPostTest < Capybara::Rails::TestCase
   end
 
 
-  # test "Error messages are display when creating a post with out title" do
-  #   visit '/posts'
-  #   click_link "New Post"
-  #   click_button 'Create Post'
+  test "Cannot create post with out title" do
+    
+    click_button 'Create Post'
 
-  #   assert page.has_content?('Post has been created!')
-  # end
+    assert page.has_content?('Post has not been created.'), 'Post has not been created'
+    assert page.has_content?("Title can't be blank"), "Title can't be blank"
+  end
+
+  test "Cannot create post with out content" do
+    
+    fill_in 'Title', with: 'Hello World!'
+    click_button 'Create Post'
+
+    assert page.has_content?('Post has not been created.'), 'Post has not been created'
+    assert page.has_content?("Content can't be blank"), "Content can't be blank"
+  end
+
+  test "Cannot create post with short title" do
+    
+    fill_in 'Title', with: 'AS'
+    click_button 'Create Post'
+
+    assert page.has_content?('Post has not been created.'), 'Error Flash'
+    assert page.has_content?("Title is too short (minimum is 3 characters)"), "Title can't be short"
+  end
 
 end

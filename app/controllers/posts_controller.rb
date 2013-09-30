@@ -12,6 +12,7 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to @post, notice: 'Post has been created!'
     else
+      flash[:alert] = 'Post has not been created.'
       render 'new'
     end
   end
