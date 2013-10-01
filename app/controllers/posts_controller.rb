@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :require_signin!, except: [:show, :index]
+  before_action :require_authentication, except: [:show, :index]
   before_action :set_post, only: [:show, :update, :edit, :destroy]
 
   def index
@@ -12,6 +12,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new post_params
+    @post.user = current_user
 
     if @post.save
       redirect_to @post, notice: 'Post has been created!'
@@ -29,7 +30,8 @@ class PostsController < ApplicationController
 
   def update
     
-    if @post.update(post_params)
+    if @post.user == current_user
+      @post.update(post_params)
     redirect_to @post, notice: 'Post has been updated.'
     else
       flash[:alert] = 'Post has not been updated.'
@@ -38,9 +40,13 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post.destroy
+    if @post.user == current_user
+      @post.destroy
 
-    redirect_to posts_path, notice: 'Post has been deleted!'
+      redirect_to posts_path, notice: 'Post has been deleted!'
+    else
+      redirect_to posts_path, alert: 'You are not authorized'
+    end
   end
   
   private
