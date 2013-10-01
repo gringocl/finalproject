@@ -28,9 +28,13 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    @post.update(post_params)
-
+    
+    if @post.update(post_params)
     redirect_to @post, notice: 'Post has been updated.'
+    else
+      flash[:alert] = 'Post has not been updated.'
+      render 'edit'
+    end
   end
   
   private
