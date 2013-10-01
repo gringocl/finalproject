@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :set_post, only: [:show, :update, :edit, :destroy]
+
   def index
     @posts = Post.all
   end
@@ -19,15 +21,12 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
   end
 
   def edit
-    @post = Post.find(params[:id])
   end
 
   def update
-    @post = Post.find(params[:id])
     
     if @post.update(post_params)
     redirect_to @post, notice: 'Post has been updated.'
@@ -36,10 +35,22 @@ class PostsController < ApplicationController
       render 'edit'
     end
   end
+
+  def destroy
+    @post.destroy
+
+    redirect_to posts_path, notice: 'Post has been deleted!'
+  end
   
   private
 
     def post_params
       params.require(:post).permit(:title, :content)
+    end
+
+    def set_post
+      @post = Post.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to posts_path, alert: "The post you were looking for could not be found."
     end
 end
