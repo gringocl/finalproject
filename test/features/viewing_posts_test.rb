@@ -18,8 +18,8 @@ class ViewingPostsTest < Capybara::Rails::TestCase
     assert page.has_content?(posts(:two).title), 'Contains title for second post'
     assert page.has_content?(posts(:two).content), 'Contains content for second post'
 
-    post = Post.where(title: 'one').first
-    click_link 'one'
+    post = Post.where(title: posts(:one).title).first
+    click_link posts(:one).title
     assert page.current_path == post_path(post), 'Current Path Failure'
 
   end
