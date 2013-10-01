@@ -2,7 +2,12 @@
 
 <% @posts.each do |post| %>
   <h2><%= link_to post.title, post_path(post) %></h2>
+  <p><%= link_to post.user.name, user_path(post.user) %></p>
   <p><%= post.content %></p>
 <% end %>
 
-<%= link_to 'New Post', new_post_path %>
+<%= paginate @posts %>
+
+<% if current_user %>
+  <%= link_to 'New Post', new_post_path %>
+<% end %>
