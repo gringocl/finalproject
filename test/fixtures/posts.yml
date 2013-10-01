@@ -2,9 +2,9 @@
 # http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  title: MyString
-  content: MyText
+  title: First Post
+  content: Lorem ipsum Reprehenderit exercitation fugiat tempor minim veniam velit ut Excepteur in eu Duis sunt dolor Excepteur Excepteur sint dolor est aliqua.
 
 two:
-  title: MyString
-  content: MyText
+  title: Second Post
+  content: Lorem ipsum Velit consequat sint qui consequat et commodo tempor eiusmod aute ut proident officia ea ut officia in dolor nostrud.
