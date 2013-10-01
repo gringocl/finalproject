@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :require_signin!, except: [:show, :index]
   before_action :set_post, only: [:show, :update, :edit, :destroy]
 
   def index
