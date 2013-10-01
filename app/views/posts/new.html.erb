@@ -1,9 +1,2 @@
-<%= form_for @post do |p| %>
-  <%= render 'errors' %>
-  
-  <%= p.label :title %><br>
-  <%= p.text_field :title %>
-  <%= p.label :content %><br>
-  <%= p.text_area :content %>
-  <%= p.submit %>
-<% end %>
+<h2>New Project</h2>
+<%= render 'form' %>
