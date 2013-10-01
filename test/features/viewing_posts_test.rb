@@ -2,12 +2,10 @@ require "test_helper"
 
 class ViewingPostsTest < Capybara::Rails::TestCase
 
-
+  
   
   before do
-    
-    Post.create(title: 'one', content: 'lorem one')
-    Post.create(title: 'two', content: 'lorem two')
+
     
     visit '/posts'
 
@@ -15,10 +13,10 @@ class ViewingPostsTest < Capybara::Rails::TestCase
 
   test "List all Posts " do
     
-    assert page.has_content?('one'), 'Contains title for first post'
-    assert page.has_content?('lorem one'), 'Contains content for first post'
-    assert page.has_content?('two'), 'Contains title for second post'
-    assert page.has_content?('lorem two'), 'Contains content for second post'
+    assert page.has_content?(posts(:one).title), 'Contains title for first post'
+    assert page.has_content?(posts(:one).content), 'Contains content for first post'
+    assert page.has_content?(posts(:two).title), 'Contains title for second post'
+    assert page.has_content?(posts(:two).content), 'Contains content for second post'
 
     post = Post.where(title: 'one').first
     click_link 'one'
