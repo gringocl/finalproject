@@ -1,11 +1,14 @@
 <% @title = @post.title %>
-<h2><%= @post.title %></h2>
-<p><%= @post.content %></p>
+<div class="large-10 columns large-centered"><h2><%= @post.title %></h2>
+
+<div class="panel">
+<h5>Written by <%= link_to @post.user.name, user_path(@post.user) %> on <%= @post.created_at.strftime("%m/%d/%Y")  %></h5>
+  <p><%= @post.content %></p>
 
 <% if current_user == @post.user %>
 
-<p><%= link_to 'Edit post', edit_post_path(@post) %> | 
+<p><%= link_to 'Edit post', edit_post_path(@post), class: 'button medium radius' %>
   <%= link_to 'Delete Post', post_path(@post), 
                             method: :delete, 
-                            data: {confirm: 'Are you sure?'} %></p>
-<% end %>
+                            data: {confirm: 'Are you sure?'}, class: 'button medium radius alert' %></p>
+<% end %></div></div>
