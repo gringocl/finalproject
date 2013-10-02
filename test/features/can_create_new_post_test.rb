@@ -2,8 +2,35 @@ require "test_helper"
 
 class CanCreateNewPostTest < Capybara::Rails::TestCase
   before do
-    visit '/posts'
+    # visit '/signup'
 
+    # fill_in 'Name', with: user(:name)
+    # fill_in 'Email', with: user(:email)
+    # fill_in 'Password', with: user(:password)
+    # fill_in 'Password Confirmation', with: user(:password_confirmation)
+
+    # click_button 'Sign up!'
+    
+    # visit '/signin'
+
+    # fill_in 'Email', with: user(:one).email
+    # fill_in 'Password', with: user(:password)
+    # fill_in 'Password Confirmation', with: user(:password_confirmation)
+
+    # click_button 'Sign in!'
+
+    user = User.create(name: 'miles', email: 'miles@example.com', password: 'secret', password_confirmation: 'secret')
+  
+    visit '/'
+    click_link "Sign in"
+
+    fill_in 'Email', with: 'miles@example.com'
+    fill_in 'Password', with: 'secret'
+    fill_in 'Password confirmation', with: 'secret'
+    click_button 'Sign in'
+
+
+    click_link "My Blog"
     click_link "New Post"
   end
 
@@ -12,6 +39,8 @@ class CanCreateNewPostTest < Capybara::Rails::TestCase
     fill_in 'Title', with: 'Hello World!'
     fill_in 'Content', with: 'Lorem ipsum Adipisicing aliquip enim ut quis mollit in do eu sint sint fugiat cupidatat id do proident esse Excepteur elit amet commodo in minim nostrud deserunt consequat amet incididunt reprehenderit nisi in irure aliquip eiusmod esse.'
     click_button 'Create Post'
+
+
 
     assert page.has_content?('Post has been created!')
 

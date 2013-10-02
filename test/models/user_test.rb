@@ -12,7 +12,7 @@ describe User do
 
   describe "passwords" do 
     it "need a password and confirmation to save" do
-      user = User.new(name: 'miles')
+      user = User.new(name: 'miles', email: 'miles@example.com')
 
       user.save
       refute user.valid?, "invalid with out password"
@@ -27,6 +27,7 @@ describe User do
       user.save
 
       assert user.valid?, "Valid user"
+
     end
 
     it "needs password and confirmation to match" do
