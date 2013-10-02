@@ -1,9 +1,9 @@
-<%= form_for @post do |p| %>
+<div class='panel'><%= form_for @post do |p| %>
   <%= render 'errors' %>
 
   <%= p.label :title %><br>
   <%= p.text_field :title %>
   <%= p.label :content %><br>
   <%= p.text_area :content %>
-  <%= p.submit %>
-<% end %>
+  <%= p.submit class: "button medium radius" %>
+<% end %></div>
