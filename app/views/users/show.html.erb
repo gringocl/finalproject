@@ -1,2 +1,10 @@
-<h2><%= @user.name %></h2>
+<h4>Posts by <%= @user.name %> contact at <%= @user.email %></h4>
+
+
+<ol>
+  <% @user.posts.each do |p| %>
+  <li><%= link_to p.title, post_path(p) %> - <%= truncate p.content %><%= p.created_at.strftime("%m/%d/%Y") %> </li>
+  <% end %>
+</ol>
+
 
