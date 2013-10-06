@@ -30,8 +30,7 @@ class PostsController < ApplicationController
 
   def update
     
-    if @post.user == current_user
-      @post.update(post_params)
+    if @post.update(post_params) && @post.user == current_user
     redirect_to @post, notice: 'Post has been updated.'
     else
       flash[:alert] = 'Post has not been updated.'
@@ -60,4 +59,5 @@ class PostsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       redirect_to posts_path, alert: "The post you were looking for could not be found."
     end
+
 end

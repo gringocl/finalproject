@@ -35,7 +35,7 @@ end
 group :development, :test do
   gem 'minitest-rails'
   gem "minitest-rails-capybara"
-  gem "factory_girl"
+  gem "factory_girl_rails", "~> 4.0"
 end
 
 gem 'zurb-foundation'

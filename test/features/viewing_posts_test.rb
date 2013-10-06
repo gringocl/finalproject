@@ -4,22 +4,29 @@ class ViewingPostsTest < Capybara::Rails::TestCase
 
   
   
-  before do
+  # before do
 
     
-    visit '/posts'
-
-  end
+  # end
 
   test "List all Posts " do
-    
-    assert page.has_content?(posts(:one).title), 'Contains title for first post'
-    assert page.has_content?(posts(:one).content), 'Contains content for first post'
-    assert page.has_content?(posts(:two).title), 'Contains title for second post'
-    assert page.has_content?(posts(:two).content), 'Contains content for second post'
 
-    post = Post.where(title: posts(:one).title).first
-    click_link posts(:one).title
+    Post.delete_all
+    User.delete_all
+
+    user = FactoryGirl.create(:user)
+   
+    post = FactoryGirl.create(:post)
+    post.user_id = user.id
+    post.save
+
+    visit '/posts'
+    
+    assert page.has_content?(post.title), 'Contains title for first post'
+    assert page.has_content?(post.content), 'Contains content for first post'
+  
+
+    click_link post.title
     assert page.current_path == post_path(post), 'Current Path Failure'
 
   end

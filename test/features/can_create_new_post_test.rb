@@ -2,50 +2,48 @@ require "test_helper"
 
 class CanCreateNewPostTest < Capybara::Rails::TestCase
   before do
-    # visit '/signup'
-
-    # fill_in 'Name', with: user(:name)
-    # fill_in 'Email', with: user(:email)
-    # fill_in 'Password', with: user(:password)
-    # fill_in 'Password Confirmation', with: user(:password_confirmation)
-
-    # click_button 'Sign up!'
     
-    # visit '/signin'
+    user = FactoryGirl.create(:user)
 
-    # fill_in 'Email', with: user(:one).email
-    # fill_in 'Password', with: user(:password)
-    # fill_in 'Password Confirmation', with: user(:password_confirmation)
+    assert user.valid?
 
-    # click_button 'Sign in!'
-
-    user = User.create(name: 'miles', email: 'miles@example.com', password: 'secret', password_confirmation: 'secret')
-  
     visit '/'
     click_link "Sign in"
 
-    fill_in 'Email', with: 'miles@example.com'
-    fill_in 'Password', with: 'secret'
-    fill_in 'Password confirmation', with: 'secret'
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    
     click_button 'Sign in'
+    
+    refute page.has_content?("Sorry."), "not signed in"
+
+    assert page.has_content?("Signed in successfully."), "signed in"
 
 
-    click_link "My Blog"
-    click_link "New Post"
+    assert current_path == root_path, "user redirected"
+
+
+
+    click_link "Create new post!"
   end
 
   test "Can create new post" do
+
     
     fill_in 'Title', with: 'Hello World!'
     fill_in 'Content', with: 'Lorem ipsum Adipisicing aliquip enim ut quis mollit in do eu sint sint fugiat cupidatat id do proident esse Excepteur elit amet commodo in minim nostrud deserunt consequat amet incididunt reprehenderit nisi in irure aliquip eiusmod esse.'
+    
     click_button 'Create Post'
+    
+    post = Post.where(title: 'Hello World!').first
+
+
 
 
 
     assert page.has_content?('Post has been created!')
 
-    post = Post.where(title: 'Hello World!').first
-
+    
     assert page.current_path == post_path(post), 'Current Path Failure'
 
     assert page.has_content?(post.title), 'Show page contains title'
